@@ -1,1 +1,33 @@
 
+
+oauth2 인증을 사용할경우
+oauth/token 이 자동으로 매핑된다.
+
+curl -F "grant_type=client_credentials" -F "scope=read" "http://foo:bar@localhost:8080/oauth/token"
+
+curl -H "Authorization:Bearer 위에서나온access_token" "http://localhost:8081/members"
+
+api-h2db 프로젝트 다운받아서 실행시 데이터 나옴
+
+client-id : 클라이언트를 구별하는 ID
+client-secret : 클라이언트의 비밀번호
+Authorized grant types : 엑세스 토컨 받는 방법에 대한 권한 부여, 기본적으로 다섯가지 방법을 제공하며 이 속성에 적힌 방법으로만 엑세스 토큰을 발급받을수 있다.
+  - authorization_code : 권한코드방식
+  - password : 사용자 소유자 비밀번호 방식
+  - client_credentials : 클라이언트 인증 방식
+  - implicit : 암묵적인 동의방식
+  - refresh_token : 리프레쉬 토큰을 통한 발급방식
+
+ Access Token Validity : 해당 클라이언트로 발급될 액세스 토큰 유효시간 (기본값: 12시간) 
+   (직접기술 : accessTokenValiditySeconds, db : access_token_validity)
+ Refresh Token Validity : 해당 클라이언트로 발급될 리프레쉬 토큰 유효시간 (기본값 : 30일)
+   (직접기술 : refreshTokenValiditySeconds, db : refresh_token_validity)
+ authorities : 클라이언트의 권한부여 (클라이언트의 인증방식 때 해당 권한을 사용)
+   (직접기술 : authorities, db : ahtorities, 쉼표로 구분)
+ scope : 해당 클라이언트로 발급될 액세스 토큰의 권한범위, 예를 들면 이 클라이언트로 API를 접근하면 특정 API에 대해 접근이 가능 여부 제어를 물을 때 사용된다.
+   (직접기술 : scopes, db: scope, 쉼표로 구분)
+ auto approve : 기본적으로 권한 코드 방식같은 형태로 액세스 토큰을 발급받을 때에는 사용자에게 위와 같은 클라이언트가 가지고 있는 scope에 대해서 하거를 받로고 화면이 나온다.
+그런데 이 화면 자체가 나오기 않게 하기 위한 속성으로 true가 설정되면 위 화면이 나오지 않는다.
+   (직접기술 : autoApprove(true), db: autoapprove, 기본값은 false) 
+   
+참고 https://brunch.co.kr/@sbcoba/8
